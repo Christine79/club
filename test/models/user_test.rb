@@ -1,20 +1,20 @@
   require 'test_helper'
 
   class UsersControllerTest < ActionDispatch::IntegrationTest
-    setup do
-      @user = users(:one)
-    end
+
+
+     setup do
+       @user = users(:one)
+     end
 
      test "the truth" do
        assert true
      end
 
-
     test "should not save user without name" do
       user = User.new
       assert_not user.save
     end
-
 
     test "should get index" do
       get users_url
@@ -33,13 +33,20 @@
         assert_redirected_to user_url(User.last)
     end
 
-    test "should create user AVEC un mail DEJA UTILISE" do
-          assert_difference('User.count') do
-
+#    test "should create user AVEC un mail DEJA UTILISE" do
+#            assert_raises(NameError) do
+#
   #          post users_url, params: { user: { name: @user.name ,firstname: @user.firstname, email: @user.email } }
-            post users_url, params: { user: { name: 'moi2' ,firstname: 'moi2aussi', email: 'moi@gmail.com'} }
-          end
-          assert_response :success
+#            post users_url, params: { user: { name: 'moi2' ,firstname: 'moi2aussi', email: 'moi@gmail.com' {:uniqueness => true }} }
+#          end
+#          assert_not user.save
+
+#    end
+
+    test "should create user AVEC un mail DEJA UTILISE" do
+        user_copy = users.dup
+        @user.save
+        assert_not @user.save
 
     end
 
@@ -48,14 +55,16 @@
       assert_raises(NameError) do
 #          post users_url, params: { user: { name: @user.name ,firstname: @user.firstname, email: @user.email } }
           post users_url, params: { user: { name: '' ,firstname: 'moiaussi', email: 'moi@gmail.Com'} }
+          assert_not user.save
       end
     end
 
     test "should NOT create user AVEC NAME A BLANC" do
         assert_raises(NameError) do
 
-#          post users_url, params: { user: { name: @user.name ,firstname: @user.firstname, email: @user.email } }
+#         post users_url, params: { user: { name: @user.name ,firstname: @user.firstname, email: @user.email } }
           post users_url, params: { user: { name: '    ' ,firstname: 'moiaussi', email: 'moi@gmail.Com'} }
+          assert_not user.save
         end
     end
 
