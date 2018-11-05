@@ -1,17 +1,13 @@
-require 'test_helper'
-
-class UserTest < ActiveSupport::TestCase
-  # test "the truth" do
-  #   assert true
-  # end
-
-
   require 'test_helper'
 
   class UsersControllerTest < ActionDispatch::IntegrationTest
     setup do
       @user = users(:one)
     end
+
+     test "the truth" do
+       assert true
+     end
 
 
     test "should not save user without name" do
@@ -32,34 +28,44 @@ class UserTest < ActiveSupport::TestCase
 
     test "should create user AVEC DONNEES COMPLETES" do
         assert_difference('User.count') do
-
-#          post users_url, params: { user: { name: @user.name ,firstname: @user.firstname, email: @user.email } }
-          post users_url, params: { user: { name: 'moi' ,firstname: 'moiaussi', email: 'moi@gmail.Com'} }
+          post users_url, params: { user: { name: 'moi' ,firstname: 'moiaussi', email: 'moi@gmail.com'} }
         end
         assert_redirected_to user_url(User.last)
     end
 
+    test "should create user AVEC un mail DEJA UTILISE" do
+          assert_difference('User.count') do
 
-    test "should create user AVEC NAME VIDE" do
-        assert_difference('User.count') do
+  #          post users_url, params: { user: { name: @user.name ,firstname: @user.firstname, email: @user.email } }
+            post users_url, params: { user: { name: 'moi2' ,firstname: 'moi2aussi', email: 'moi@gmail.com'} }
+          end
+          assert_response :success
 
+    end
+
+
+    test "should NOT create user AVEC NAME VIDE" do
+      assert_raises(NameError) do
 #          post users_url, params: { user: { name: @user.name ,firstname: @user.firstname, email: @user.email } }
           post users_url, params: { user: { name: '' ,firstname: 'moiaussi', email: 'moi@gmail.Com'} }
-        end
-        assert_redirected_to user_url(User.last)
+      end
     end
 
-    test "should create user AVEC NAME A BLANC" do
-        assert_difference('User.count') do
+    test "should NOT create user AVEC NAME A BLANC" do
+        assert_raises(NameError) do
 
 #          post users_url, params: { user: { name: @user.name ,firstname: @user.firstname, email: @user.email } }
           post users_url, params: { user: { name: '    ' ,firstname: 'moiaussi', email: 'moi@gmail.Com'} }
         end
-        assert_redirected_to user_url(User.last)
     end
 
 
-
+  test "C H R I S T I N E should report error" do
+    # some_undefined_variable is not defined elsewhere in the test case
+    assert_raises(NameError) do
+      some_undefined_variable
+    end
+  end
 
     test "should show user" do
       get user_url(@user)
@@ -84,6 +90,3 @@ class UserTest < ActiveSupport::TestCase
       assert_redirected_to users_url
     end
   end
-
-
-end
