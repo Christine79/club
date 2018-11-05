@@ -1,10 +1,20 @@
 class UsersController < ApplicationController
   before_action :set_user, only: [:show, :edit, :update, :destroy]
 
+
+  def salut
+     @name = params[:name]
+  end
   # GET /users
   # GET /users.json
+
+#  def index
+#    @users = User.all
+#  end
+
   def index
     @users = User.all
+    current_user = User.find_by_id(session[:current_user_id])
   end
 
   # GET /users/1
