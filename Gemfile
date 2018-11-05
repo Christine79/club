@@ -3,7 +3,7 @@ git_source(:github) { |repo| "https://github.com/#{repo}.git" }
 
 ruby '2.5.1'
 
-gem 'validate_email' , '~> 0.1.6'
+
 gem 'email-validator', '~> 0.2.3'
 
 # Bundle edge Rails instead: gem 'rails', github: 'rails/rails'
