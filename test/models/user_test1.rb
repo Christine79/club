@@ -31,12 +31,17 @@ class UserTest < ActiveSupport::TestCase
     end
 
     test "should create user" do
-      assert_difference('User.count') do
-        post users_url, params: { user: { name: @user.name ,firstname: @user.firstname, email: @user.email } }
-      end
+        assert_difference('User.count') do
 
-      assert_redirected_to user_url(User.last)
+#          post users_url, params: { user: { name: @user.name ,firstname: @user.firstname, email: @user.email } }
+          post users_url, params: { user: { name: 'moi' ,firstname: 'moiaussi', email: 'moi@gmail.Com'} }
+        end
+        assert_redirected_to user_url(User.last)
     end
+
+
+
+
 
     test "should show user" do
       get user_url(@user)
